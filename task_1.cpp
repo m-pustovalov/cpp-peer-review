@@ -24,7 +24,7 @@ public:
         }
     }
 
-    double GetUserPercentile(user_id_t user_id) {
+    double GetFractionOfUsersWhoReadLess(user_id_t user_id) {
         page_number_t pages_read = users_progress_[user_id];
         if (pages_read == 0) {
             return 0;
@@ -54,13 +54,12 @@ void ReadAndExecuteCommands(std::istream& in, std::ostream& out) {
 
     out << std::setprecision(6);
     while (num_queries--) {
-        in >> command;
+        in >> command >> user_id;
         if (command == "READ") {
-            in >> user_id >> page_number;
+            in >> page_number;
             book.Read(user_id, page_number);
         } else { // "CHEER"
-            in >> user_id;
-            out << book.GetUserPercentile(user_id) << std::endl;
+            out << book.GetFractionOfUsersWhoReadLess(user_id) << std::endl;
         }
     }
 }
